@@ -33,3 +33,7 @@ While we will be referencing some DFT and QM/MM theory (mainly the nudged elasti
 ### Day 3 -- 3rd November, 2020
 
  * 14:00 - 16:00 -- Consultancy session
+
+## Acknowledgements
+
+The tutorials presented here were originally developed by by Dr. Gerrit Groenhof for use with [GROMACS](http://www.gromacs.org/) and [Gaussian](https://gaussian.com/). These were adapted for CP2K by Dr. Salomé Llabrés-Prat
