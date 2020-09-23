@@ -1,11 +1,6 @@
 # Practical introduction to QM/MM using CP2K for biomolecular modelling (October 2020)
 
----
-**Note**
-
-The material in this repository is under development and subject to change.
-
----
+**Note:** The material in this repository is under development and subject to change.
 
 CP2K is a quantum chemistry and solid state physics software package that can perform atomistic simulations of a wide variety of systems, ranging from solid state to biological systems. CP2K provides a general framework for running density functional theory (DFT) simulations, with extensions that enable users to run classical molecular dynamics (MD), mix MD and DFT to obtain quantum-mechanical/molecular-dynamics (QM/MM) runs, or perform other forms of metadynamics, Monte Carlo, or other simulations.
 
@@ -15,29 +10,26 @@ While we will be referencing some DFT and QM/MM theory (mainly the nudged elasti
 
 ## Course timetable
 
----
-**Note**
-
-Times are for mainland UK
+**Note:** Times are for mainland UK
 
 ---
 
 ### Day 1 -- 13th October, 2020
 
-13:30 Welcome and overview
-13:40 Geometry optimisation methods
-14:30 Break
-15:00 Diels-Alder reaction in vacuum
-16:00 Close
+ * 13:30 Welcome and overview
+ * 13:40 Geometry optimisation methods
+ * 14:30 Break
+ * 15:00 Diels-Alder reaction in vacuum
+ * 16:00 Close
 
 ### Day 2 -- 20th October, 2020
 
-13:30 Welcome and recap
-13:40 Diels-Alder reaction in solution
-14:30 Break
-15:00 Diels-Alder reaction in a protein
-16:00 Close
+ * 13:30 Welcome and recap
+ * 13:40 Diels-Alder reaction in solution
+ * 14:30 Break
+ * 15:00 Diels-Alder reaction in a protein
+ * 16:00 Close
 
 ### Day 3 -- 3rd November, 2020
 
-14:00 - 16:00 -- Consultancy session
+ * 14:00 - 16:00 -- Consultancy session
