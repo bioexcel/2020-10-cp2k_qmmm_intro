@@ -1,29 +1,38 @@
 ## Section 1: Single point calculations of Diels-Alder reaction in vacuum
 
-First, we are going to perform geometry optimisation calculations on 3 structures: 
+First, we are going to perform geometry optimisation calculations on 3 
+structures: 
 
 - Reactants (**R**), 
 - Transition state (**TS**) and
 - Products (**P**).
 
-We have provided these 3 structures in XYZ format. These has been inferred from the X-ray structure (PDB id 1C1E) and previously optimised using Gaussian09. 
+We have provided these 3 structures in XYZ format. These has been inferred 
+from the X-ray structure (PDB id 1C1E) and previously optimised using 
+Gaussian09. 
 
 <br/><br/>
 
-### 1.1 Geometry optimisation of the chemical structures of the reactants and products
+### 1.1 Geometry optimisation of the chemical structures of the reactants 
+and products
 
-First, we are going to perform a quantum mechanical (QM) geometry optimisation for the reactant and product states. We are going to use the semi-empirical PM3 (**JS: Do I want to add info/link about this?**).
+First, we are going to perform a quantum mechanical (QM) geometry optimisation 
+for the reactant and product states. We are going to use the semi-empirical PM3 
+(**JS: Do I want to add info/link about this?**).
 
 You will find the input file here: 
-- **GMX_DAA/section1/CP2K/inp.reactant_pm3_geoopt**
-- **GMX_DAA/section1/CP2K/inp.product_pm3_geoopt**
-
+- [Reactant geometry-optimisation input file](./exercise/1_reactantinp.reactant_pm3_geoopt)
+- [Transition state geometry optimisation input file](./exercise/2_transition_state/inp.transition_state_pm3_geoopt)
+- [Transition state frequency calculations input file](./exercise/2_transition_state/inp.transition_state_pm3_freq)
+- [Product geomerty optimisation input file](./exercise/3_product/inp.product_pm3_geoopt)
 
 **Highlighted regions of inp.reactant_pm3_geoopt**
 
-Below is a description of the main parts of our CP2K input file, with certain parts of interest highlighted.
+Below is a description of the main parts of our CP2K input file, with certain 
+parts of interest highlighted.
 
-We have to set up calculation type as `GEO_OPT` in the `&GLOBAL` section (**JS: Is is worth talking a bit more about the CP2K input file structure?**):
+We have to set up calculation type as `GEO_OPT` in the `&GLOBAL` section 
+(**JS: Is is worth talking a bit more about the CP2K input file structure?**):
 
 ```
 &GLOBAL
@@ -33,17 +42,24 @@ We have to set up calculation type as `GEO_OPT` in the `&GLOBAL` section (**JS: 
 &END GLOBAL
 ```
 
-In the `&FORCE_EVAL` section, we define the basic system definitions (such as topology and coordinates). Here we are only going to explain the most important ones:
+In the `&FORCE_EVAL` section, we define the basic system definitions (such as 
+topology and coordinates). Here we are only going to explain the most important 
+ones:
 - `METHOD QS` : QUICKSTEP is the QM method in CP2K ([link](https://www.cp2k.org/quickstep)).
 - In the `&SUBSYS` subsection, we define several parameters of the system. 
   - `&CELL` defines the simulation box size that will contain all QM atoms.
   - `&COORD` defines the starting coordinates of the QM atoms. 
-  - `&KIND` lists the basis sets and the potentials for each unique element in the simulation. 
-- In the `&DFT` subsection, we define several parameters of the density functional theory (DFT) basis set
+- In the `&DFT` subsection, we define several parameters of the density 
+functional theory (DFT) basis set
   - `&CHARGE 0` sets the overall charge of the system.
-  - `&QS` subsection where QUICKSTEP parameters are set. Amongst other things, we need to specify which QS method we are using (in this case `METHOD PM3`).
-  - `&MGRID` subsection where all the parameters for calculating the Gaussian plane waves are defined.
-  - `&SCF` subsection where parameters for finding a self-consistent solution (SCF) of the [Kohn-Sham](https://en.wikipedia.org/wiki/Kohn%E2%80%93Sham_equations) DFT formalism are defined.
+  - `&QS` subsection where QUICKSTEP parameters are set. Amongst other things, 
+we need to specify which QS method we are using (in this case `METHOD PM3`).
+  - `&MGRID` subsection where all the parameters for calculating the Gaussian 
+plane waves are defined.
+  - `&SCF` subsection where parameters for finding a self-consistent solution 
+(SCF) of the 
+[Kohn-Sham](https://en.wikipedia.org/wiki/Kohn%E2%80%93Sham_equations) DFT 
+formalism are defined.
 
 ```
 &FORCE_EVAL                              ! parameters needed to calculate energy and forces
@@ -96,7 +112,8 @@ In the `&FORCE_EVAL` section, we define the basic system definitions (such as to
 &END FORCE_EVAL
 ```
 
-In the `&MOTION` section, we define the parameters for the geometry optimisation. 
+In the `&MOTION` section, we define the parameters for the geometry 
+optimisation. 
 
 ```
 &MOTION                        
@@ -118,7 +135,8 @@ Then run the following command:
 $ cp2k.popt inp.reactant_pm3_geoopt > out.reactant_pm3_geoopt
 ```
 
-Once the job has finished, we need to check that the minimisation has converged. For each optimisation step, we a section that looks similar to this: 
+Once the job has finished, we need to check that the minimisation has converged.
+For each optimisation step, we a section that looks similar to this: 
 
 ```
   Core-core repulsion energy [eV]:                         111210.31809538803645
@@ -165,34 +183,42 @@ Once the job has finished, we need to check that the minimisation has converged.
  ---------------------------------------------------
 ```
 
-The number of steps it takes for the system to converge can vary. Here we can see that it took 197 steps to converge this system. CP2K evaluates the convergence using 4 different criteria:
+The number of steps it takes for the system to converge can vary. Here we can 
+see that it took 197 steps to converge this system. CP2K evaluates the 
+convergence using 4 different criteria:
 
 - The maximum calculated displacement for the next step must be essentially 0:
 
     **Conv. limit for step size**  =        4.50000000E-004
     
-    - This default value can be changed by setting `&MOTION` `&GEO_OPT` `MAX_DR` to a value of your choosing.
+    - This default value can be changed by setting `&MOTION` `&GEO_OPT` 
+`MAX_DR` to a value of your choosing.
 
-- The root-mean-square (RMS) of the calculated displacement for the next step must be also essentially 0:
+- The root-mean-square (RMS) of the calculated displacement for the next step 
+must be also essentially 0:
 
     **Conv. limit for RMS step**   =        1.50000000E-003
     
-    - This default value can be changed by setting `&MOTION` `&GEO_OPT` `RMS_DR` to a value of your choosing.
+    - This default value can be changed by setting `&MOTION` `&GEO_OPT` `RMS_DR`
+to a value of your choosing.
 
 - The maximum forces/gradient must be essentially 0: 
 
     **Conv. limit for gradients**  =        3.00000000E-003
     
-    - This default value can be changed by setting `&MOTION` `&GEO_OPT` `MAX_FORCE` to a value of your choosing.
+    - This default value can be changed by setting `&MOTION` `&GEO_OPT` 
+`MAX_FORCE` to a value of your choosing.
 
 - The RMS of the forces/gradient must be also essentially 0:
 
     **Conv. limit for RMS grad.**  =        3.00000000E-004
     
-    - This default value can be changed by setting `&MOTION` `&GEO_OPT` `RMS_FORCE` to a value of your choosing.
+    - This default value can be changed by setting `&MOTION` `&GEO_OPT` 
+`RMS_FORCE` to a value of your choosing.
 
 
-> **Tip:** Use this command to monitor the runs: grep -a12 "Convergence check" out.reactants_pm3_geoopt
+> **Tip:** Use this command to monitor the runs: grep -a12 "Convergence check" 
+out.reactants_pm3_geoopt
 
 <br/><br/>
 
@@ -200,13 +226,18 @@ The number of steps it takes for the system to converge can vary. Here we can se
 
 #### Geometry optimisation of the Transition State
 
-Next, we are going to perform a QM geometry optimisation for the transition state. We are going to use semi-empirical PM3 again to obtain consistent results. The CP2K input file is similar to the geometry optimisation for the reactant and product states, but there are several differences:
+Next, we are going to perform a QM geometry optimisation for the transition 
+state. We are going to use semi-empirical PM3 again to obtain consistent 
+results. The CP2K input file is similar to the geometry optimisation for the 
+reactant and product states, but there are several differences:
 
-You will find the input file here: **GMX_DAA/section1/CP2K/inp.transition_state_pm3_geoopt**
+You will find the input file here: 
+**GMX_DAA/section1/CP2K/inp.transition_state_pm3_geoopt**
 
 **Highlighted regions of inp.transition_state_pm3_geoopt**
 
-To calculate the geometry for the TS, we need to slightly modify the `&GEO_OPT` in the `&MOTION` section. We will use the [DIMER method](https://aip.scitation.org/doi/10.1063/1.480097) to calculate the transition states in CP2K. 
+To calculate the geometry for the TS, we need to slightly modify the `&GEO_OPT` 
+in the `&MOTION` section. We will use the [DIMER method](https://aip.scitation.org/doi/10.1063/1.480097) to calculate the transition states in CP2K. 
 
 ```
 &MOTION
@@ -240,15 +271,21 @@ To calculate the geometry for the TS, we need to slightly modify the `&GEO_OPT` 
 
 #### Frequency calculation
 
-Additionally, we need to do an extra calculation to validate the TS structure. We need to make sure that there are negative frequencies on the atomic vibrations and that they correspond to the formation of the bonds (**JS: why?**). For the vibrational analysis to be correct, we need to use the same QM method used in the geometry optimisation.
+Additionally, we need to do an extra calculation to validate the TS structure. 
+We need to make sure that there are negative frequencies on the atomic 
+vibrations and that they correspond to the formation of the bonds 
+(**JS: why?**). For the vibrational analysis to be correct, we need to use the 
+same QM method used in the geometry optimisation.
 
 You will find the input file here: **GMX_DAA/section1/CP2K/inp.transition_state_pm3_freq**
 
-**Highlighted regions of inp._transition_state_pm3_freq**
+**Highlighted regions of inp._transition_state_freq**
 
-This input script is slightly different from the one for geometric optimisation (see above). Here, we highlight the differences between the two.
+This input script is slightly different from the one for geometric optimisation 
+(see above). Here, we highlight the differences between the two.
 
-In `&Global`, we have to set up calculation type as `NORMAL_MODES` instead of `GEO_OPT`:
+In `&Global`, we have to set up calculation type as `NORMAL_MODES` instead of 
+`GEO_OPT`:
 
 ```
 &GLOBAL
@@ -258,7 +295,9 @@ In `&Global`, we have to set up calculation type as `NORMAL_MODES` instead of `G
 &END GLOBAL
 ```
 
-We maintain the same `&FORCE_EVAL` section seen in the geometry optimisations runs. We omit the `&MOTION` section and replace it with the following section instead:
+We maintain the same `&FORCE_EVAL` section seen in the geometry optimisations 
+runs. We omit the `&MOTION` section and replace it with the following section 
+instead:
 
 ```
 &VIBRATIONAL_ANALYSIS     ! Needed for normal modes, vibrational, or phonon analysis runs.
@@ -281,10 +320,13 @@ We maintain the same `&FORCE_EVAL` section seen in the geometry optimisations ru
 This calculation creates a series of output files. Of note are:
 
 - **TS-VIBRATIONS-1.mol** : Resulting frequencies and structures. 
-- **TS-VIBRATIONS-1.eig** : Binary file containing the eigenvectors and eigenstates of the frequencies.
+- **TS-VIBRATIONS-1.eig** : Binary file containing the eigenvectors and 
+eigenstates of the frequencies.
 - **TS-Hessian-1.hess**   : Binary file containing the Hessian matrix.
 
-In the **DA.TS.freq-VIBRATIONS-1.mol** file, we can see that the frequencies listed at the top are negative. The only negative frequency corresponds to the formation of the two C-C bonds in a synchonous way. 
+In the **DA.TS.freq-VIBRATIONS-1.mol** file, we can see that the frequencies 
+listed at the top are negative. The only negative frequency corresponds to the 
+formation of the two C-C bonds in a synchonous way. 
 
 ```
  [Molden Format]
@@ -297,7 +339,12 @@ In the **DA.TS.freq-VIBRATIONS-1.mol** file, we can see that the frequencies lis
        ...
 ```
 
-The easiest way to validate the atomic vibrations is to visualise them. The default output format in CP2K is [MOLDEN](http://cheminf.cmbi.ru.nl/molden/) format (**TS-VIBRATIONS-1.mol**), you might find this software difficult to install and to use -- we have therefore provided a python script that converts this format to multiple XYZ files, one for each vibration. You can visualise these multiple XYZ files using Pymol of VMD. **NO PYTHON SCRIPT** 
+The easiest way to validate the atomic vibrations is to visualise them. The 
+default output format in CP2K is [MOLDEN](http://cheminf.cmbi.ru.nl/molden/) 
+format (**TS-VIBRATIONS-1.mol**), you might find this software difficult to 
+install and to use -- we have therefore provided a python script that converts 
+this format to multiple XYZ files, one for each vibration. You can visualise 
+these multiple XYZ files using Pymol of VMD. **NO PYTHON SCRIPT** 
 
 This image shows the first vibration found using CP2K:
 
@@ -307,7 +354,12 @@ This image shows the first vibration found using CP2K:
 
 ### 1.3 Calculation of the energy barrier.
 
-Here we compare the single-point energy calculations between Gaussian and CP2K. To do this, we take the final energy output from the simulation and compare it to the value obtained for the reactant. Note that CP2K outputs energies in arbitraty units (a.u.) -- these are equivalent to Hartree units, and 1 Hartree = 627.509 kcal/mol. Here are the results we obtain: (**JS: Change image path when live**):
+Here we compare the single-point energy calculations between Gaussian and CP2K. 
+To do this, we take the final energy output from the simulation and compare it 
+to the value obtained for the reactant. Note that CP2K outputs energies in 
+arbitraty units (a.u.) -- these are equivalent to Hartree units, and 1 Hartree 
+= 627.509 kcal/mol. Here are the results we obtain: 
+(**JS: Change image path when live**):
 
 Energy / kcal/mol | Reactants | Transition States | Product
 ------------ | ------------- | ------------- | -------------
@@ -315,7 +367,7 @@ Structure | ![DA R](https://git.ecdf.ed.ac.uk/jsindt/salome-tutorials-re-worked/
 CP2K rel | 0.00 | 47.81 | -8.70
 Gaussian09 | 0.00 | 47.81 | -8.69
 
-These results are the sameas, or very similar to, those found using Gaussian09.
+These results are the same as, or very similar to, those found using Gaussian09.
 
 <br/><br/>
 
