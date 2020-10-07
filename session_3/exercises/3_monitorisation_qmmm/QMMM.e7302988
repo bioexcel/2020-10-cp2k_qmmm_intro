@@ -1,0 +1,9 @@
+aprun: Apid 42946721: Caught signal Terminated, sending to application
+_pmiu_daemon(SIGCHLD): [NID 00016] [c0-0c0s4n0] [Tue Oct  6 17:44:40 2020] PE RANK 129 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00012] [c0-0c0s3n0] [Tue Oct  6 17:44:40 2020] PE RANK 24 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00014] [c0-0c0s3n2] [Tue Oct  6 17:44:40 2020] PE RANK 73 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00013] [c0-0c0s3n1] [Tue Oct  6 17:44:40 2020] PE RANK 48 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00017] [c0-0c0s4n1] [Tue Oct  6 17:44:40 2020] PE RANK 144 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00018] [c0-0c0s4n2] [Tue Oct  6 17:44:40 2020] PE RANK 168 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 00015] [c0-0c0s3n3] [Tue Oct  6 17:44:40 2020] PE RANK 96 exit signal Terminated
+_pmiu_daemon(SIGCHLD): [NID 04461] [c7-2c0s11n1] [Tue Oct  6 17:44:40 2020] PE RANK 2 exit signal Terminated
