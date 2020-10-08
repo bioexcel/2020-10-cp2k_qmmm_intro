@@ -13,14 +13,13 @@ Gaussian09.
 
 <br/><br/>
 
-### 1.1 Geometry optimisation of the chemical structures of the reactants 
-and products
+### 1.1 Geometry optimisation of the chemical structures of the reactants and products
 
 First, we are going to perform a quantum mechanical (QM) geometry optimisation 
 for the reactant and product states. We are going to use the semi-empirical PM3 
 (**JS: Do I want to add info/link about this?**).
 
-You will find the input file here: 
+You will find the input files here: 
 - [Reactant geometry-optimisation input file](./exercise/1_reactantinp.reactant_pm3_geoopt)
 - [Transition state geometry optimisation input file](./exercise/2_transition_state/inp.transition_state_pm3_geoopt)
 - [Transition state frequency calculations input file](./exercise/2_transition_state/inp.transition_state_pm3_freq)
