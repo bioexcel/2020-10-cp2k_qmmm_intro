@@ -77,6 +77,20 @@ However, we define the section `&BAND` within the `&MOTION` section which will c
 
 > **TIP**: In a production run you would not supply MAX_STEPS and instead run until fully converged.
 
+**Running the NEB calculation**
+
+Submit the following jobscipt to run the calculation.
+
+```
+qsub sub-neb.pbs
+```
+
+> **TIP**: The NUMBER_OF_REPLICA and NPROC_REP in the input should ideally multiply to give the number of processes used in the job script.
+
+
+**Understanding the output**
+
+
 As well as the standard CP2K output in output.neb a series of outputs are generated for each replica in the band. These include:
 
 - ``DAA_NEB-BANDXX.out`` - The geometry optimisation output for each replica.
