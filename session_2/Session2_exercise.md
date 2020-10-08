@@ -74,6 +74,7 @@ However, we define the section `&BAND` within the `&MOTION` section which will c
 ```
 
 > **TIP**: The order of the atoms in the xyz files MUST be the same in all the structures. 
+
 > **TIP**: In a production run you would not supply MAX_STEPS and instead run until fully converged.
 
 As well as the standard CP2K output in output.neb a series of outputs are generated for each replica in the band. These include:
