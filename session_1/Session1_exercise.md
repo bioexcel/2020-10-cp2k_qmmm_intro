@@ -23,7 +23,7 @@ allows you to define general information about the simulation to be run (*e.g.*
 the project name, the type of simulation to be run, the amount of output 
 required, the simulation random seed, etc.). The 
 [FORCE_EVAL](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/FORCE_EVAL.html) 
-section is where the simulation parameters (forces, energies, atom types, *etc.) 
+section is where the simulation parameters (forces, energies, atom types, *etc*.) 
 are defined. The final section will depend on the type of simulation you are 
 trying to run -- simulations where you expect movement (*e.g.* geometry 
 optimisations) will need a 
@@ -305,7 +305,7 @@ results. The CP2K input file is similar to the geometry optimisation for the
 reactant and product states, but there are several differences:
 
 You will find the input file 
-[here](./exercise/transition_state/inp.transition_state_pm3_geoopt).
+[here](./exercise/3_transition_state/inp.transition_state_pm3_geoopt).
 
 **Highlighted regions of inp.transition_state_pm3_geoopt**
 
@@ -352,7 +352,7 @@ vibrational analysis to be correct, we need to use the same QM method used in
 the geometry optimisation.
 
 You will find the input file 
-[here](./exercise/transition_state/inp.transition_state_freq).
+[here](./exercise/3_transition_state/inp.transition_state_freq).
 
 **Highlighted regions of inp._transition_state_freq**
 
@@ -416,11 +416,10 @@ formation of the two C-C bonds in a synchonous way.
 ```
 
 The easiest way to validate the atomic vibrations is to visualise them. The 
-default output format in CP2K is [MOLDEN](http://cheminf.cmbi.ru.nl/molden/) 
-format (**TS-VIBRATIONS-1.mol**), you might find this software difficult to 
-install and to use -- we have therefore provided a python script that converts 
-this format to multiple XYZ files, one for each vibration. You can visualise 
-these multiple XYZ files using Pymol of VMD.
+default output format in CP2K is MOLDEN format, you might find this software 
+difficult to install and to use -- we have therefore provided a python script 
+that converts this format to multiple XYZ files, one for each vibration. You can 
+visualise these multiple XYZ files using Pymol of VMD.
 
 This image shows the first vibration found using CP2K:
 
