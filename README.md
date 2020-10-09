@@ -19,7 +19,7 @@ While we will be referencing some DFT and QM/MM theory (mainly the nudged elasti
  * 13:30 Welcome and overview
  * 13:40 Geometry optimisation methods
  * 14:30 Break
- * 15:00 Diels-Alder reaction in vacuum
+ * 15:00 Diels-Alder reaction using the nudged leastic band method
  * 16:00 Close
 
 ### Day 2 -- 20th October, 2020
@@ -27,7 +27,7 @@ While we will be referencing some DFT and QM/MM theory (mainly the nudged elasti
  * 13:30 Welcome and recap
  * 13:40 Diels-Alder reaction in solution
  * 14:30 Break
- * 15:00 Diels-Alder reaction in a protein
+ * 15:00 Exercise session: Diels-Alder reaction in a protein
  * 16:00 Close
 
 ### Day 3 -- 3rd November, 2020
@@ -36,4 +36,7 @@ While we will be referencing some DFT and QM/MM theory (mainly the nudged elasti
 
 ## Acknowledgements
 
-The tutorials presented here were originally developed by by Dr. Gerrit Groenhof for use with [GROMACS](http://www.gromacs.org/) and [Gaussian](https://gaussian.com/). These were adapted for CP2K by Dr. Salomé Llabrés-Prat
+The tutorials presented here were originally developed by by Dr. Gerrit Groenhof 
+for use with [GROMACS](http://www.gromacs.org/) and 
+[Gaussian](https://gaussian.com/). These were adapted for CP2K by Dr. Salomé 
+Llabrés-Prat
