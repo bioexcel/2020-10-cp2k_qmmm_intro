@@ -11,28 +11,67 @@ We have provided these 3 structures in XYZ format. These has been inferred
 from the X-ray structure (PDB id 1C1E) and previously optimised using 
 Gaussian09. 
 
+<br/>
+
+### 1.0 Basics of CP2K
+
+Below is a description of the main parts of our CP2K input file, with certain 
+parts of interest highlighted. In general, CP2K input files are split into three 
+main sections. The 
+[GLOBAL](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/GLOBAL.html) section 
+allows you to define general information about the simulation to be run (*e.g.* 
+the project name, the type of simulation to be run, the amount of output 
+required, the simulation random seed, etc.). The 
+[FORCE_EVAL](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/FORCE_EVAL.html) 
+section is where the simulation parameters (forces, energies, atom types, *etc.) 
+are defined. The final section will depend on the type of simulation you are 
+trying to run -- simulations where you expect movement (*e.g.* geometry 
+optimisations) will need a 
+[MOTION](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/MOTION.html) section 
+to define the way that particles can move whereas simulations focussing more on 
+vibrational modes of freedom or phononics will need a
+[VIBRATION_ANALYSIS](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/VIBRATIONAL_ANALYSIS.html) 
+section. The list of available sections can be found 
+[here](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT.html).
+
+Each of these sections then has a number of subsections that can be used to 
+fully define the system being run. In CP2K, a section called `SECTION` with a 
+subsection called `SUBSECTION` where a variable `VARIABLE` needs to be defined, 
+would look like this:
+
+```bash
+&SECTION
+  &SUBSECTION
+    VARIABLE set_variable
+    ...
+  &END SUBSECTION
+&END SECTION
+```
+
+This is recursive, and in a few cases, you will need to define sub-subsections 
+*etc.*. Comments can be added using an exclamation mark `!`, and these can be 
+set as their own line or following some CP2K instructions (though be aware that 
+CP2K instructions that require string inputs will not read `!` as a comment, 
+which will cause an irregular termination of the simulation).
+
 <br/><br/>
 
-### 1.1 Geometry optimisation of the chemical structures of the reactants 
-and products
+### 1.1 Setting up a geometry optimisation of the chemical structures of the reactants state
 
 First, we are going to perform a quantum mechanical (QM) geometry optimisation 
-for the reactant and product states. We are going to use the semi-empirical PM3 
-(**JS: Do I want to add info/link about this?**).
+for the reactant and product states. We are going to use the [semi-empirical PM3 
+method](https://en.wikipedia.org/wiki/PM3_(chemistry))
+.
 
-You will find the input file here: 
-- [Reactant geometry-optimisation input file](./exercise/1_reactantinp.reactant_pm3_geoopt)
+You will find the input files here: 
+- [Reactant geometry-optimisation input file](./exercise/1_reactant/inp.reactant_pm3_geoopt)
 - [Transition state geometry optimisation input file](./exercise/2_transition_state/inp.transition_state_pm3_geoopt)
 - [Transition state frequency calculations input file](./exercise/2_transition_state/inp.transition_state_pm3_freq)
 - [Product geomerty optimisation input file](./exercise/3_product/inp.product_pm3_geoopt)
 
-**Highlighted regions of inp.reactant_pm3_geoopt**
+#### 1.1.1 Highlighted regions of inp.reactant_pm3_geoopt
 
-Below is a description of the main parts of our CP2K input file, with certain 
-parts of interest highlighted.
-
-We have to set up calculation type as `GEO_OPT` in the `&GLOBAL` section 
-(**JS: Is is worth talking a bit more about the CP2K input file structure?**):
+We have to set up calculation type as `GEO_OPT` in the `&GLOBAL` section:
 
 ```
 &GLOBAL
@@ -97,7 +136,7 @@ formalism are defined.
       MAX_SCF 2000
       &OT                                ! Orbital transformation (OT) method
         MINIMIZER DIIS
-        PRECONDITIONER FULL_SINGLE_INVERSE
+        PRECONDITIONER FULL_SINGLE_INVERSEinp.product_geoopt
       &END
       &OUTER_SCF                         ! Parameters controlling the outer SCF loop
         EPS_SCF 1.0E-6
@@ -128,12 +167,35 @@ optimisation.
   &END GEO_OPT
 &END MOTION
 ```
+#### 1.1.2 Running CP2K on ARCHER
 
-Then run the following command: 
+ARCHER uses modules to store centrally-installed software, and CP2K is one of 
+these centrally-installed softwares. Any ARCHER user can load CP2K by running 
+`module load cp2k/7.1`. This gives users access to the CP2K executables (as well 
+as making sure that all of the correct libraries and dependencies are loaded). 
+The ARCHER CP2K module has two executable: `cp2k.sopt` for single-processor jobs 
+and `cp2k.popt` for multi-processor jobs. Through this course, we will be using 
+the multi-processor `cp2k.popt` executable. Note that, as the ARCHER login nodes 
+are shared with other users, running multi-processor jobs is not enabled on them, 
+and we will need to submit these simulations to the compute nodes.
 
+We have made sure that all exercises have a script to allow you to submit CP2K 
+simulations to the compute nodes with ease -- these sripts can be found in the 
+appropriate `exercise` folders, and are called `sub_NAME.pbs`, where the name 
+may have been altered to provide a better description. You can submit your 
+simulation with the command:
+
+```bash
+$ qsub sub_NAME.pbs
 ```
-$ cp2k.popt inp.reactant_pm3_geoopt > out.reactant_pm3_geoopt
+
+and you can check on whether your job is queueing with the command:
+
+```bash
+$ qstat -u $USER
 ```
+
+#### 1.1.3 Analysing the results
 
 Once the job has finished, we need to check that the minimisation has converged.
 For each optimisation step, we a section that looks similar to this: 
@@ -220,6 +282,17 @@ to a value of your choosing.
 > **Tip:** Use this command to monitor the runs: grep -a12 "Convergence check" 
 out.reactants_pm3_geoopt
 
+#### 1.1.4 Exercise
+
+Now that we have the energy of the geometrically-optimised reactants, we need 
+to find the same for the product. You will find all of the files needed in the 
+2nd part of the Session 1 exercises. Have a look at 
+[inp.product_geoopt](.exercise/2_product/inp.product_geoopt) to ensure that you 
+understand what the script is doing and, when you are ready, launch the 
+simulation using the submission script provided.
+
+What do you find the total energy of the system to be?
+
 <br/><br/>
 
 ### 1.2 Geometry optimisation and Frequency calulations of the transition states
@@ -231,13 +304,14 @@ state. We are going to use semi-empirical PM3 again to obtain consistent
 results. The CP2K input file is similar to the geometry optimisation for the 
 reactant and product states, but there are several differences:
 
-You will find the input file here: 
-**GMX_DAA/section1/CP2K/inp.transition_state_pm3_geoopt**
+You will find the input file 
+[here](.exercise/transition_state/inp.transition_state_pm3_geoopt).
 
 **Highlighted regions of inp.transition_state_pm3_geoopt**
 
 To calculate the geometry for the TS, we need to slightly modify the `&GEO_OPT` 
-in the `&MOTION` section. We will use the [DIMER method](https://aip.scitation.org/doi/10.1063/1.480097) to calculate the transition states in CP2K. 
+in the `&MOTION` section. We will use the [DIMER method](https://aip.scitation.org/doi/10.1063/1.480097) 
+to calculate the transition states in CP2K. 
 
 ```
 &MOTION
@@ -277,7 +351,8 @@ vibrations and that they correspond to the formation of the bonds
 (**JS: why?**). For the vibrational analysis to be correct, we need to use the 
 same QM method used in the geometry optimisation.
 
-You will find the input file here: **GMX_DAA/section1/CP2K/inp.transition_state_pm3_freq**
+You will find the input file 
+[here](.exercise/transition_state/inp.transition_state_freq).
 
 **Highlighted regions of inp._transition_state_freq**
 
@@ -345,11 +420,11 @@ default output format in CP2K is [MOLDEN](http://cheminf.cmbi.ru.nl/molden/)
 format (**TS-VIBRATIONS-1.mol**), you might find this software difficult to 
 install and to use -- we have therefore provided a python script that converts 
 this format to multiple XYZ files, one for each vibration. You can visualise 
-these multiple XYZ files using Pymol of VMD. **NO PYTHON SCRIPT** 
+these multiple XYZ files using Pymol of VMD.
 
 This image shows the first vibration found using CP2K:
 
-![DA TS vibrations](https://git.ecdf.ed.ac.uk/jsindt/salome-tutorials-re-worked/blob/master/GMX_DAA/images/section1/vibration.png) (**JS -- Change image path when live!**)
+[DA TS vibrations](../Images/session1/vibrations.png)
 
 <br/><br/>
 
@@ -360,11 +435,10 @@ To do this, we take the final energy output from the simulation and compare it
 to the value obtained for the reactant. Note that CP2K outputs energies in 
 arbitraty units (a.u.) -- these are equivalent to Hartree units, and 1 Hartree 
 = 627.509 kcal/mol. Here are the results we obtain: 
-(**JS: Change image path when live**):
 
 Energy / kcal/mol | Reactants | Transition States | Product
 ------------ | ------------- | ------------- | -------------
-Structure | ![DA R](https://git.ecdf.ed.ac.uk/jsindt/salome-tutorials-re-worked/blob/master/GMX_DAA/images/section1/reactants.png) | ![DA TS](https://git.ecdf.ed.ac.uk/jsindt/salome-tutorials-re-worked/blob/master/GMX_DAA/images/section1/transition_state.png) | ![DA P](https://git.ecdf.ed.ac.uk/jsindt/salome-tutorials-re-worked/blob/master/GMX_DAA/images/section1/product.png)
+Structure | [DA R](../Images/session1/DA_reactants.png) | [DA TS](../Images/session1/DA_transition.png) | [DA P](../Images/session1/DA_product.png)
 CP2K rel | 0.00 | 47.81 | -8.70
 Gaussian09 | 0.00 | 47.81 | -8.69
 
