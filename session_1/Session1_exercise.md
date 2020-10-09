@@ -287,7 +287,7 @@ out.reactants_pm3_geoopt
 Now that we have the energy of the geometrically-optimised reactants, we need 
 to find the same for the product. You will find all of the files needed in the 
 2nd part of the Session 1 exercises. Have a look at 
-[inp.product_geoopt](.exercise/2_product/inp.product_geoopt) to ensure that you 
+[inp.product_geoopt](./exercise/2_product/inp.product_geoopt) to ensure that you 
 understand what the script is doing and, when you are ready, launch the 
 simulation using the submission script provided.
 
@@ -305,7 +305,7 @@ results. The CP2K input file is similar to the geometry optimisation for the
 reactant and product states, but there are several differences:
 
 You will find the input file 
-[here](.exercise/transition_state/inp.transition_state_pm3_geoopt).
+[here](./exercise/transition_state/inp.transition_state_pm3_geoopt).
 
 **Highlighted regions of inp.transition_state_pm3_geoopt**
 
@@ -347,12 +347,12 @@ to calculate the transition states in CP2K.
 
 Additionally, we need to do an extra calculation to validate the TS structure. 
 We need to make sure that there are negative frequencies on the atomic 
-vibrations and that they correspond to the formation of the bonds 
-(**JS: why?**). For the vibrational analysis to be correct, we need to use the 
-same QM method used in the geometry optimisation.
+vibrations and that they correspond to the formation of the bonds. For the 
+vibrational analysis to be correct, we need to use the same QM method used in 
+the geometry optimisation.
 
 You will find the input file 
-[here](.exercise/transition_state/inp.transition_state_freq).
+[here](./exercise/transition_state/inp.transition_state_freq).
 
 **Highlighted regions of inp._transition_state_freq**
 
@@ -424,7 +424,7 @@ these multiple XYZ files using Pymol of VMD.
 
 This image shows the first vibration found using CP2K:
 
-[DA TS vibrations](../Images/session1/vibrations.png)
+[DA TS vibrations](../Images/session1/vibration.png)
 
 <br/><br/>
 
