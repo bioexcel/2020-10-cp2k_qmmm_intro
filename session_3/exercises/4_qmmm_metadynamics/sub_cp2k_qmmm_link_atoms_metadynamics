@@ -12,7 +12,7 @@
 export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
 cd $PBS_O_WORKDIR
 
-module load cp2k
+module load cp2k/7.1
 
 # Run LAMMPS
 aprun -n 24 cp2k.popt -i inp.qmmm_link_atoms_metadynamics \

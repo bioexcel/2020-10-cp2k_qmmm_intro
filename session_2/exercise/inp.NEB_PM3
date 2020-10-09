@@ -64,6 +64,7 @@
       &PRINT
         &RESTART OFF
         &END RESTART
+        &RESTART_HISTORY OFF
       &END PRINT
     &END SCF
 
@@ -72,7 +73,7 @@
  
 &MOTION
   &BAND
-    NPROC_REP 24
+    NPROC_REP 6
     BAND_TYPE CI-NEB
     NUMBER_OF_REPLICA 9
     K_SPRING 0.05
