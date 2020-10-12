@@ -64,7 +64,6 @@
       &PRINT
         &RESTART OFF
         &END RESTART
-        &RESTART_HISTORY OFF
       &END PRINT
     &END SCF
 
@@ -73,7 +72,7 @@
  
 &MOTION
   &BAND
-    NPROC_REP 6
+    NPROC_REP 12
     BAND_TYPE CI-NEB
     NUMBER_OF_REPLICA 9
     K_SPRING 0.05
@@ -93,10 +92,6 @@
         MAX_STEPS 400
       &END
     &END
-    &PROGRAM_RUN_INFO
-    &END
-    &CONVERGENCE_INFO
-    &END
  
     &REPLICA
       COORD_FILE_NAME ./DielsAlder_reactant.xyz
@@ -108,5 +103,13 @@
       COORD_FILE_NAME ./DielsAlder_product.xyz
     &END
   &END BAND
- 
+  &PRINT
+     &TRAJECTORY
+       &EACH
+         BAND 1
+       &END 
+     &END
+     &RESTART_HISTORY OFF
+     &END
+  &END
 &END MOTION
