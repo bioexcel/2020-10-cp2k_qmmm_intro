@@ -2,7 +2,6 @@
 #PBS -N NEB_VACUUM
 # Select 1 node
 #PBS -l select=5
-#PBS -q short
 #PBS -l walltime=0:20:00
 
 # Replace this with your budget code
