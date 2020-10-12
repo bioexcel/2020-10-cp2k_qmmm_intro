@@ -1,6 +1,10 @@
 ## Section 3: Diels-Alder reaction in solution
 
-The next step is to simulate the Diels Alder reaction in solution. To do so we use a QM/MM approach where part of the molecule is defined as QM, and the rest of the molecule and the solvent are defined as MM. This setup requires us to define link atoms. We will explain how to do so in this section.
+In this session, we will simulate the Diels Alder reaction in solution. To do so 
+we use a QM/MM approach where the reacting part of the molecule is defined 
+quantum mechanically, and the rest of the molecule, as well as the solvent, are 
+defined classically. This setup requires us to define link atoms. We will 
+explain how to do so in this section.
 
 This section is divided into 4 parts:
 - System setup
@@ -14,7 +18,10 @@ This section is divided into 4 parts:
 
 **Ligand parameterisation**
 
-We are using a simple approach to parameterise the reaction product and model the reaction backwards ( **P --> R** ). To do so, we use the ambertools protocol (using antechamber and prmchk2). For more details on the process, see [this link](http://ambermd.org/tutorials/basic/tutorial4b/). 
+We are using a simple approach to parameterise the reaction product and model 
+the reaction backwards ( **P --> R** ). To do so, we use the ambertools 
+protocol (using antechamber and prmchk2). For more details on the process, see 
+[this link](http://ambermd.org/tutorials/basic/tutorial4b/). 
 
 We are simulating the full molecule this time:
 
@@ -25,13 +32,15 @@ $ antechamber -i product.pdb -fi pdb -o product.mol2 -fo mol2 -nc -1 -c bcc -at 
 $ parmchk2 -i product.mol2 -f mol2 -o product.frcmod
 ```
 
-For this protocol, we use GAFF2 forcefield parameters to define atom types and use AM1-BCC QM level to calculate the charges. 
+For this protocol, we use GAFF2 forcefield parameters to define atom types and 
+use AM1-BCC QM level to calculate the charges. 
 
 <br/><br/>
 
 **System preparation**
 
-Using tleap from the ambertools suite, we are going to solvate the system in a waterbox, including a Na+ counterion to neutralise the system.
+Using tleap from the ambertools suite, we are going to solvate the system in a 
+waterbox, including a Na+ counterion to neutralise the system.
 
 The tleap input file (**leap.in**) looks like this:
 ```
@@ -63,7 +72,11 @@ $ tleap -f leap.in
 
 ### Section 3.2: Classical minimisation and equilibration of the system.
 
-Here we are going to leverage the AMBER tools and AMBER tutorial [B0](http://ambermd.org/tutorials/basic/tutorial0/). Using AMBER I used a similar protocol to the one in AMBER forcefield to minimise & equilibrate the system MM. We are not going to explain in detail the AMBER input file, you will find a detailed description in the aforementioned tutorial. 
+Here we are going to leverage the AMBER tools and AMBER tutorial 
+[B0](http://ambermd.org/tutorials/basic/tutorial0/). Using AMBER I used a 
+similar protocol to the one in AMBER forcefield to minimise & equilibrate the 
+system MM. We are not going to explain in detail the AMBER input file, you will 
+find a detailed description in the aforementioned tutorial. 
 
 You will find the input file here: 
 - **GMX_DAA/section3/CP2K/classical_equilibration/min_classical.in**
@@ -119,9 +132,15 @@ There are several steps in order to set up a QM/MM system:
 
 **Modification of Lennard-Jones parameters**
 
-We need to be aware of the limitations of the classical models and how to combine them with the QM methods. We have set up the solvent using TIP3P water model, which has no Lennard-Jones parameters defined for the hydrogen atoms. We have to set them in order to avoid unrealistic interactions with the QM region. Here in this example, we are going to use the LJ parameters in the GAFF2 forcefield.
+We need to be aware of the limitations of the classical models and how to 
+combine them with the QM methods. We have set up the solvent using TIP3P water 
+model, which has no Lennard-Jones parameters defined for the hydrogen atoms. We 
+have to set them in order to avoid unrealistic interactions with the QM region. 
+Here in this example, we are going to use the LJ parameters in the GAFF2 
+forcefield.
 
-To modify them, we are going to modify the prmtop file using parmed. Here are the PARMED commands to run:
+To modify them, we are going to modify the prmtop file using parmed. Here are 
+the PARMED commands to run:
 
 ```
 $ parmed system.prmtop
@@ -138,7 +157,10 @@ quit
 
 **Fix the atomic coordinates format obtained form the equilibration step**
 
-In order to use the restart file from the heat simulations, we need to change the format from binary netcdf to a six columns formatted restart file. CPPTRAJ (from AMBERtools) can do that for us and simultaneosuly remove periodic boundary conditions artifacts.
+In order to use the restart file from the heat simulations, we need to change 
+the format from binary netcdf to a six columns formatted restart file. CPPTRAJ 
+(from AMBERtools) can do that for us and simultaneosuly remove periodic boundary 
+conditions artifacts.
 
 ```
 $ cpptraj system.prmtop
@@ -152,9 +174,12 @@ go
 quit
 ```
 
-> **TIP**: CRD AMBER format (10 columns) and RST7 AMBER (6 columns) format differ on the number of columns. We are converting the file to restrt (RST7) format but naming the file as .crd as CP2K requires. 
+> **TIP**: CRD AMBER format (10 columns) and RST7 AMBER (6 columns) format 
+differ on the number of columns. We are converting the file to restrt (RST7) 
+format but naming the file as .crd as CP2K requires. 
 
-For a more detailed explanation of the cpptraj commands, you can look at the [CPPTRAJ manual](https://amber-md.github.io/cpptraj/CPPTRAJ.xhtml). 
+For a more detailed explanation of the cpptraj commands, you can look at the 
+[CPPTRAJ manual](https://amber-md.github.io/cpptraj/CPPTRAJ.xhtml). 
 
 <br/><br/>
 
@@ -164,9 +189,12 @@ After that we set up the QM/MM partition as follows:
 
 ![QM/MM partition](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/QMMM.section3.png)
 
-QM region is highlighted in blue and link atoms are shown in purple. The rest of the system (water molecules and counterions) is shown in white. 
+QM region is highlighted in blue and link atoms are shown in purple. The rest 
+of the system (water molecules and counterions) is shown in white. 
 
-As shown in the scheme above, the QM/MM boundary divides the ligand and hence, covalent bonds. To deal with broken covalent bonds, we are going to use the [**IMOMM** scheme](https://www.semanticscholar.org/paper/IMOMM%3A-A-New-Integrated-Ab-Initio-%2B-Molecular-of-Maseras-Morokuma/5e1bb154312e6751c044c8226a9ee73b69db89f6). This scheme adds an additional atomic centre (usually a hydrogen atom) covalently bonded to the last QM atom. This additional atom is not real and its only purpose is to saturate its valency replacing the bond that has been broken. 
+As shown in the scheme above, the QM/MM boundary divides the ligand and hence, 
+covalent bonds. To deal with broken covalent bonds, we are going to use the 
+[**IMOMM** scheme](https://www.semanticscholar.org/paper/IMOMM%3A-A-New-Integrated-Ab-Initio-%2B-Molecular-of-Maseras-Morokuma/5e1bb154312e6751c044c8226a9ee73b69db89f6). This scheme adds an additional atomic centre (usually a hydrogen atom) covalently bonded to the last QM atom. This additional atom is not real and its only purpose is to saturate its valency replacing the bond that has been broken. 
 
 To set the link atoms in CP2K, we have to do the following steps.
 
@@ -182,7 +210,8 @@ To set the link atoms in CP2K, we have to do the following steps.
     &END LINK
 ```
 
-Here it is an image showing all the indexes of the atoms for this solvated system:
+Here it is an image showing all the indexes of the atoms for this solvated 
+system:
 
 ![QMMM indexes](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/QMMM.section3_indexes.png)
 
@@ -200,16 +229,19 @@ We have to set up calculation type as `MD` in the `&GLOBAL` section:
 &END GLOBAL
 ```
 
-The ```&FORCE_EVAL``` section retains part of the definitions we used in the vacuum QM calculations. We have to a lot of new parameters:
+The ```&FORCE_EVAL``` section retains part of the definitions we used in the 
+vacuum QM calculations. We have to a lot of new parameters:
 - ```METHOD QMMM``` : We will use method QMMM
 - Similar ```&DFT``` section
-- ```&MM``` section: Here we specify all the necessary options to run the MM region of the system. 
+- ```&MM``` section: Here we specify all the necessary options to run the MM 
+- region of the system. 
   - ```&FORCEFIELD``` section
   - ```&POISSON``` section
 - ```&SUBSYS``` section: List all the details of the system:
   - ```&CELL``` section: Size of the system. 
   - ```&TOPOLOGY``` section: Here we specify the AMBER input files. 
-  - ```&KIND NA+``` section to specify all the elements that are defined in the system with a different element name (Na -- NA+)
+  - ```&KIND NA+``` section to specify all the elements that are defined in the 
+  - system with a different element name (Na -- NA+)
 - ```&QMMM``` section: 
   - ```ECOUPL COULOMB``` electrostatic coupling scheme
   - ```&CELL``` section: size of the QM subsystem. 
@@ -362,9 +394,21 @@ The main changes are located in the ```&MOTION``` section:
 
 ### Section 3.4: QM/MM enhanced sampling (Metadynamics)
 
-As we saw in the previous QM/MM simulations, the system remains estable and runs smoothly. However, for the Diels Alder reaction to be reversed we should extend our equilibrium simulations for a very long time and probably nothing would happen given the energy difference between reactants and products. Therefore, we need to biase the system in order to sample the Diels Alder reaction. To biase the system we need to define collective variables that describe the reaction or change we want to observe and use enhanced sampling methods to push the system onto that coordinate. 
+As we saw in the previous QM/MM simulations, the system remains estable and 
+runs smoothly. However, for the Diels Alder reaction to be reversed we should 
+extend our equilibrium simulations for a very long time and probably nothing 
+would happen given the energy difference between reactants and products. 
+Therefore, we need to biase the system in order to sample the Diels Alder 
+reaction. To biase the system we need to define collective variables that 
+describe the reaction or change we want to observe and use enhanced sampling 
+methods to push the system onto that coordinate. 
 
-CP2K has different [collective variables (CV)](https://manual.cp2k.org/trunk/CP2K_INPUT/FORCE_EVAL/SUBSYS/COLVAR.html) and several [enhanced sampling methods](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/FREE_ENERGY.html) implemented. However, for this particular problem none of the implemented CV fulfil our needs. Luckily, we can used the [PLUMED2 plugin](https://www.plumed.org) to define a custom CV. To do so, you will need an additional file (plumed.dat) describing your CV to CP2K.
+CP2K has different [collective variables (CV)](https://manual.cp2k.org/trunk/CP2K_INPUT/FORCE_EVAL/SUBSYS/COLVAR.html) 
+and several [enhanced sampling methods](https://manual.cp2k.org/trunk/CP2K_INPUT/MOTION/FREE_ENERGY.html) 
+implemented. However, for this particular problem none of the implemented CV 
+fulfil our needs. Luckily, we can used the 
+[PLUMED2 plugin](https://www.plumed.org) to define a custom CV. To do so, you 
+will need an additional file (plumed.dat) describing your CV to CP2K.
 
 **plumed.dat**:
 
@@ -410,7 +454,9 @@ In the ```&MOTION``` section add:
 &END FREE_ENERGY
   ```
 
-You can also run metadynamics using the collective variables defined in [CP2K](https://manual.cp2k.org/trunk/CP2K_INPUT/FORCE_EVAL/SUBSYS/COLVAR.html). Here I add a sample version of the ```&FREE_ENERGY``` section:
+You can also run metadynamics using the collective variables defined in 
+[CP2K](https://manual.cp2k.org/trunk/CP2K_INPUT/FORCE_EVAL/SUBSYS/COLVAR.html). 
+Here I add a sample version of the ```&FREE_ENERGY``` section:
 
 ```
   &FREE_ENERGY
@@ -435,7 +481,8 @@ You can also run metadynamics using the collective variables defined in [CP2K](h
   &END FREE_ENERGY
 ```
 
-And the COLVAR definition is added to the ```&MM``` section of the ```&FORCE_EVAL```:
+And the COLVAR definition is added to the ```&MM``` section of the 
+```&FORCE_EVAL```:
 
 ```
     &COLVAR
