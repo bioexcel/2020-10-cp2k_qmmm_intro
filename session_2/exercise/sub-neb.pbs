@@ -1,9 +1,8 @@
 #!/bin/bash --login
 #PBS -N NEB_VACUUM
-# Select 1 node
-#PBS -l select=3
-#PBS -q short
-#PBS -l walltime=0:20:00
+
+#PBS -l select=13
+#PBS -l walltime=0:10:00
 
 # Replace this with your budget code
 #PBS -A ta003
@@ -15,4 +14,4 @@ cd $PBS_O_WORKDIR
 module load cp2k/7.1
 
 # Run CP2K
-aprun -n 216 cp2k.popt -i inp.* -o out.results
+aprun -n 300 cp2k.popt -i inp.NEB_PM3 > output.neb

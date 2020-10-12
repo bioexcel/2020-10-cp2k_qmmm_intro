@@ -49,7 +49,7 @@
 
     &SCF
       SCF_GUESS ATOMIC
-      EPS_SCF 1.0E-05
+      EPS_SCF 1.0E-06
       MAX_SCF 200
 
       &OT
@@ -58,13 +58,12 @@
       &END
       &OUTER_SCF
         EPS_SCF 1.0E-6
-        MAX_SCF 10
+        MAX_SCF 20
       &END
 
       &PRINT
         &RESTART OFF
         &END RESTART
-        &RESTART_HISTORY OFF
       &END PRINT
     &END SCF
 
@@ -73,9 +72,9 @@
  
 &MOTION
   &BAND
-    NPROC_REP 6
+    NPROC_REP 12
     BAND_TYPE CI-NEB
-    NUMBER_OF_REPLICA 9
+    NUMBER_OF_REPLICA 25
     K_SPRING 0.05
     &CONVERGENCE_CONTROL
       MAX_FORCE 0.0010
@@ -93,10 +92,6 @@
         MAX_STEPS 400
       &END
     &END
-    &PROGRAM_RUN_INFO
-    &END
-    &CONVERGENCE_INFO
-    &END
  
     &REPLICA
       COORD_FILE_NAME ./DielsAlder_reactant.xyz
@@ -108,5 +103,13 @@
       COORD_FILE_NAME ./DielsAlder_product.xyz
     &END
   &END BAND
- 
+  &PRINT
+     &TRAJECTORY
+       &EACH
+         BAND 1
+       &END 
+     &END
+     &RESTART_HISTORY OFF
+     &END
+  &END
 &END MOTION

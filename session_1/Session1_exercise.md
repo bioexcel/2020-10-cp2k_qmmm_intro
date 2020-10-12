@@ -16,7 +16,7 @@ Gaussian09.
 ### 1.0 Basics of CP2K
 
 Below is a description of the main parts of our CP2K input file, with certain 
-parts of interest highlighted. In general, CP2K input files are split into three 
+parts of interest highlighted. In general, most CP2K input files are split into three 
 main sections. The 
 [GLOBAL](https://manual.cp2k.org/cp2k-7_1-branch/CP2K_INPUT/GLOBAL.html) section 
 allows you to define general information about the simulation to be run (*e.g.* 
@@ -173,8 +173,9 @@ ARCHER uses modules to store centrally-installed software, and CP2K is one of
 these centrally-installed softwares. Any ARCHER user can load CP2K by running 
 `module load cp2k/7.1`. This gives users access to the CP2K executables (as well 
 as making sure that all of the correct libraries and dependencies are loaded). 
-The ARCHER CP2K module has two executable: `cp2k.sopt` for single-processor jobs 
-and `cp2k.popt` for multi-processor jobs. Through this course, we will be using 
+The ARCHER CP2K module has a few different executables: `cp2k.sopt` for 
+single-processor jobs, `cp2k.popt` for multi-processor jobs, and `cp2k.psmp` 
+for mixed mode parallelism (MPI+OpenMP). Throughout this course, we will be using 
 the multi-processor `cp2k.popt` executable. Note that, as the ARCHER login nodes 
 are shared with other users, running multi-processor jobs is not enabled on them, 
 and we will need to submit these simulations to the compute nodes.
