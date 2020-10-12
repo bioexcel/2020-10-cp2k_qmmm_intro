@@ -22,7 +22,7 @@ We use a similar `&FORCE_EVAL` section of the input file because we want to main
 However, we define the section `&BAND` within the `&MOTION` section which will contain parameters relavent for the NEB. 
 
 - `  BAND_TYPE CI-NEB`
-- `  NUMBER_OF_REPLICA` 15
+- `  NUMBER_OF_REPLICA` 9
 - `  K_SPRING` 0.05
 - `  &REPLICA` subsection. Here we list the previous optimised structures as initial guesses for NEB.
 
@@ -30,8 +30,9 @@ However, we define the section `&BAND` within the `&MOTION` section which will c
 ```
 &MOTION
   &BAND                    ! BAND run
+    NPROC_REP 12           ! Number of processes to use per replica
     BAND_TYPE CI-NEB       ! Type of BAND calculation - Climbing Image NEB
-    NUMBER_OF_REPLICA 15   ! Number of Replica to use in the BAND
+    NUMBER_OF_REPLICA 9    ! Number of Replica to use in the BAND
     K_SPRING 0.05          ! Spring constant for the band
     
     &CONVERGENCE_CONTROL.  ! control the convergence criteria for BAND
@@ -50,14 +51,10 @@ However, we define the section `&BAND` within the `&MOTION` section which will c
       OPT_TYPE DIIS        ! DIIS based optimization procedure for BAND
       OPTIMIZE_END_POINTS FALSE
       &DIIS
-        MAX_STEPS 500      ! The number of steps to run the NEB
+        MAX_STEPS 400      ! The number of steps to run the NEB
       &END
-      
     &END
-    &PROGRAM_RUN_INFO
-    &END
-    &CONVERGENCE_INFO
-    &END
+
 
     &REPLICA               ! Coordinates of the replica
       COORD_FILE_NAME ./DA.R-pos-1.xyz
@@ -109,7 +106,7 @@ file  you can create an xyz file which will allow you to visualise the optimised
 This can be done by running the following:
 
 ```
-$ for x in 01 02 03 04 05 06 07 08 09 10 12 13 14 15; do tail -n 26 DAA_NEB-pos-Replica_nr_${x}-1.xyz >> DAA-movie.xyz ; done
+$ for x in 1 2 3 4 5 6 7 8 9; do tail -n 26 DAA_NEB-pos-Replica_nr_${x}-1.xyz >> DAA-movie.xyz ; done
 ```
 You may then view this with you chosen xyz viewer e.g. vmd:
 
@@ -121,10 +118,10 @@ The energy profile can be obtained from the final energies of each of the replic
 This is printed at the end of output.neb for all replicas, and also in ``DAA_NEB-BANDXX.out`` for the individual replicas.
 
 ```
-$ grep 'Total Energy' output.neb | tail -n 15
+$ grep 'Total Energy' output.neb | tail -n 9
 ```
 
-As before the energy is given in Hartrees. 
+As before the energy is given in Hartrees, but you can convert it into different units.
 
 If we write the energy profile with respect to the energy of the reactant, the following profile is obtained:
 
