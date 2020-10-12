@@ -12,6 +12,16 @@ This section is divided into 4 parts:
 - Monitorisation of the QM/MM set up
 - Biased simulations runs
 
+For the system setup, minimisation & equilibration, and parts of the 
+monitorisation of the QM/MM setup, we will be using the AmberTools package. We 
+have recently given a course on using AmberTools to prepare a biological system 
+for QM/MM treatment with CP2K. While we will be going over these technicques 
+during this session, we will not be doing so in as much detail as in that 
+course. If you are interested in using AmberTools, or if you want a more full 
+understanding of these methods, please have a look at the
+[course video](https://www.youtube.com/watch?v=zilybdb8x-A) and 
+[course material](https://www.archer2.ac.uk/training/courses/200609-amber/).
+
 <br/><br/>
 
 ### Section 3.1: Setup of the system.
