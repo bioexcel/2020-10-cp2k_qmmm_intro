@@ -1,6 +1,6 @@
 ## Section 2: Diels-Alder reaction in vacuum
 
-To obtain the reaction profile of the reaction in vaccum, we are going to use the [Nundged Elastic Band (NEB)](https://theory.cm.utexas.edu/henkelman/pubs/jonsson98_385.pdf) to estimate the energy profile of the Diels Alder reaction. 
+To obtain the reaction profile of the reaction in vaccum, we are going to use the [Nudged Elastic Band (NEB)](https://theory.cm.utexas.edu/henkelman/pubs/jonsson98_385.pdf) to estimate the energy profile of the Diels Alder reaction. 
 
 We are going to use the resulting structures from the previous section as guesses for the reaction path. Since the structures were optimised using the semi-empirical PM3 method we will also optimise the BAND using PM3. 
 
@@ -71,8 +71,6 @@ However, we define the section `&BAND` within the `&MOTION` section which will c
 ```
 
 > **TIP**: The order of the atoms in the xyz files MUST be the same in all the structures. 
-
-> **TIP**: In a production run you would not supply MAX_STEPS and instead run until fully converged.
 
 - Note the reactant, product and transition state coordinates which are listed under `&REPLICA` in order. 
 - In the output the reactant will be replica no. 1, and the product will be replica no. N (where N is the `NUMBER_OF_REPLICA`), i.e. the end points. 
