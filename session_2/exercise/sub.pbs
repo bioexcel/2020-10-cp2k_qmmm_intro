@@ -14,4 +14,4 @@ cd $PBS_O_WORKDIR
 module load cp2k/7.1
 
 # Run CP2K
-aprun -n 108 cp2k.popt -i inp.NEB_PM3 -o output.neb
+aprun -n 108 cp2k.popt -i inp.NEB_PM3 > output.neb
