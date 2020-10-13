@@ -164,7 +164,7 @@ can plot this.
 
 Using more replica requires more compute resources as we assign a fixed number of cores per replica.
 However the a larger number of replica gives a more accurate result and usually the NEB
-converges faster. In our case for 25 replica the calculation took x steps.
+converges faster. In our case for 25 replica the calculation took 298 steps.
 
 
 
