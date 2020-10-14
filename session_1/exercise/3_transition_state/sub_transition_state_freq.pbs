@@ -3,7 +3,7 @@
 # Select 1 node
 #PBS -l select=1
 #PBS -q short
-#PBS -l walltime=00:20:00
+#PBS -l walltime=00:05:00
 
 # Replace this with your budget code
 #PBS -A ta003
