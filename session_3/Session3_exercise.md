@@ -89,10 +89,10 @@ system MM. We are not going to explain in detail the AMBER input file, you will
 find a detailed description in the aforementioned tutorial. 
 
 You will find the input file here: 
-- **GMX_DAA/section3/CP2K/classical_equilibration/min_classical.in**
-- **GMX_DAA/section3/CP2K/classical_equilibration/heat_classical.in**
+- [in.classical_minimisation](./exercises/2_minimisation/in.classical_minimisation)
+- [in.classical_heating](./exercises/2_minimisation/in.classical_heating)
 
-**min_classical.in**
+**in.classical_minimisation**
 
 ```
 Initial minimisation of our structure
@@ -102,7 +102,7 @@ Initial minimisation of our structure
  /
 ```
 
-**heat_classical.in**
+**in.classical_heating**
 
 ```
 Heat
@@ -122,11 +122,23 @@ Heat
 &wt type='END' /
 ```
 
-To run the minimisation, you have to use this command:
+To run the minimisation, we will be sumbmitting a job on ARCHER. This can be 
+done by running:
+
+```bash
+qsub sub_sander.pbs
+```
+
+The lines of interest are equivalent to running the following on the login nodes
+(but running on the compute nodes is faster, and will not use up the shared 
+login-node resources):
 
 ```
-$ sander -O -i min_classical.in -o min_classical.out -p system.prmtop -c system.inpcrd -r system.min.r
-$ sander -O -i heat_classical.in -o heat_classical.out -p system.prmtop -c system.min.r -r system.md.r -x system.md.nc
+$ sander -O -i in.classical_minimisation -o out.classical_minimisation \
+            -p system.prmtop -c system.inpcrd -r system.min.r
+$ sander -O -i in.classical_heating -o out.classical_heating \
+            -p system.prmtop -c system.min.r -r system.md.r \
+            -x system.md.nc
 ```
 
 <br/><br/>
@@ -153,8 +165,10 @@ To modify them, we are going to modify the prmtop file using parmed. Here are
 the PARMED commands to run:
 
 ```
-$ parmed system.prmtop
+$ parmed system.prmtop -i inp.parmed_tip3p
 ```
+
+The contents of `inp.parmed_tip3p` are:
 
 ```
 changeLJSingleType :WAT@H1 0.3019 0.047
@@ -173,8 +187,10 @@ the format from binary netcdf to a six columns formatted restart file. CPPTRAJ
 conditions artifacts.
 
 ```
-$ cpptraj system.prmtop
+$ cpptraj system.prmtop -i inp.cpptraj_reformat
 ```
+
+where the contents of `inp.cpptraj_reformat` are:
 
 ```
 trajin system.md.r
