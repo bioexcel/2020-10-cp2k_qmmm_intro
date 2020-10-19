@@ -100,10 +100,19 @@ $ tleap -f leap.in
 
 ### Section 4.2: Classical minimisation and equilibration of the system.
 
-Here we are going to lto use the same protocol described in **Section 3.2**. As 
-before, we will need to copy over the `system.prmtop` and `system.inpcrd` from 
-the first part of this exercise. We will then use `sander` to run classical a 
-minimisation and thermal equilibration on the system. Here are the input files:
+---
+**NOTE**
+
+For this part of the exercise, we will need the `system.prmtop` and 
+`system.inpcrd` files generated during **Section 4.1** of this exercise. If you 
+have not managed to generate these files, a copy has been provided 
+[here](./exercises/2_minimisation/bckp_missed_steps)
+
+---
+
+Here we are going to use the same protocol described in **Section 3.2**. As 
+before, we will then use `sander` to run classical a minimisation and thermal 
+equilibration on the system. Here are the input files:
 
 - [in.classical_minimisation](./2_classical_equilibration/in.classical_minimisation)
 - [in.classical_heating](./2_classical_equilibration/in.classical_heating)
@@ -160,6 +169,17 @@ $ sander -O -i in.classical_heating -o out.classical_heating \
 <br/><br/>
 
 ### Section 4.3: Monitorisation of the QM/MM set up.
+
+---
+
+**NOTE**
+
+For this part of the exercise, we will need the `system.prmtop` file generated 
+in **Section 4.1**, and the `system.md.r` file generated in **Section 4.2** of 
+this exercise. If you have not managed to generate these files, a copy has been 
+provided [here](./exercises/3_monitorisation_qmmm/bckp_missed_steps)
+
+---
 
 There are several steps in order to set up a QM/MM system:
 - Modifications of the Lennard-Jones parameters, 
@@ -273,6 +293,16 @@ have changed and will need to be updated:
 
 
 ### Section 4.4: QM/MM enhanced sampling (Metadynamics)
+
+---
+**NOTE**
+
+For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
+`system.md.crd` files generated in **Section 3.3** of this exercise. If you have 
+not managed to generate these files, a copy has been provided 
+[here](./exercises/4_qmmm_metadynamics/bckp_missed_steps).
+
+---
 
 As we saw in the previous QM/MM simulations, the system remains estable and runs 
 smoothly. However, we need to set up biased simulations for the Diels Alder 
