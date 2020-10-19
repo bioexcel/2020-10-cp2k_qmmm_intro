@@ -82,13 +82,27 @@ $ tleap -f leap.in
 
 ### Section 3.2: Classical minimisation and equilibration of the system.
 
-Here we are going to leverage the AMBER tools and AMBER tutorial 
-[B0](http://ambermd.org/tutorials/basic/tutorial0/). Using AMBER I used a 
-similar protocol to the one in AMBER forcefield to minimise & equilibrate the 
-system MM. We are not going to explain in detail the AMBER input file, you will 
-find a detailed description in the aforementioned tutorial. 
+---
+**NOTE**
 
-You will find the input file here: 
+For this part of the exercise, we will need the `system.prmtop` and 
+`system.inpcrd` files generated during **Section 3.1** of this exercise. If you 
+have not managed to generate these files, a copy has been provided 
+[here](./exercises/2_minimisation/bckp_missed_steps)
+
+---
+
+Here we are going to leverage the AMBER tools and AMBER tutorial 
+[B0](http://ambermd.org/tutorials/basic/tutorial0/). We will use a similar 
+protocol to the one in AMBER forcefield to minimise & equilibrate the system 
+using classical molecular mechanics. We are not going to explain in detail the 
+AMBER input file, you will find a detailed description in the aforementioned 
+tutorial. 
+
+For this to work, we will need to copy over the `system.prmtop` and 
+`system.inpcrd` generated in the first part of this exercise. We will be using 
+the `sander` tool. You will find the input file here: 
+
 - [in.classical_minimisation](./exercises/2_minimisation/in.classical_minimisation)
 - [in.classical_heating](./exercises/2_minimisation/in.classical_heating)
 
@@ -144,6 +158,17 @@ $ sander -O -i in.classical_heating -o out.classical_heating \
 <br/><br/>
 
 ### Section 3.3: Monitorisation of the QM/MM set up.
+
+---
+
+**NOTE**
+
+For this part of the exercise, we will need the `system.prmtop` file generated 
+in **Section 3.1**, and the `system.md.r` file generated in **Section 3.2** of 
+this exercise. If you have not managed to generate these files, a copy has been 
+provided [here](./exercises/3_monitorisation_qmmm/bckp_missed_steps)
+
+---
 
 There are several steps in order to set up a QM/MM system:
 - Modifications of the Lennard-Jones parameters, 
@@ -419,6 +444,16 @@ The main changes are located in the ```&MOTION``` section:
 <br/><br/>
 
 ### Section 3.4: QM/MM enhanced sampling (Metadynamics)
+
+---
+**NOTE**
+
+For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
+`system.md.crd` files generated in **Section 3.3** of this exercise. If you have 
+not managed to generate these files, a copy has been provided 
+[here](./exercises/4_qmmm_metadynamics/bckp_missed_steps).
+
+---
 
 As we saw in the previous QM/MM simulations, the system remains estable and 
 runs smoothly. However, for the Diels Alder reaction to be reversed we should 
