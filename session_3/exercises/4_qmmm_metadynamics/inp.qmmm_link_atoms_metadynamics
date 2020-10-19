@@ -67,6 +67,9 @@
     &KIND NA+
      ELEMENT Na
     &END KIND
+    &KIND Cl-
+     ELEMENT Cl
+    &END KIND
   &END SUBSYS
 
   &QMMM

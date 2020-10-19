@@ -66,6 +66,9 @@
     &KIND NA+
      ELEMENT Na
     &END KIND
+    &KIND CL-
+     ELEMENT Cl
+    &END KIND
   &END SUBSYS
   &QMMM
     ECOUPL COULOMB
