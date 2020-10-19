@@ -198,8 +198,10 @@ To modify them, we are going to modify the prmtop file using parmed. Here are
 the PARMED commands to run:
 
 ```
-$ parmed system.prmtop
+$ parmed system.prmtop -i inp.parmed
 ```
+
+where `inp.parmed` looks like this:
 
 ```
 changeLJSingleType :TYR@HH 0.3019 0.047
@@ -220,8 +222,10 @@ CPPTRAJ tool ( provided by the AMBERtools free suite ) to conver the format and
 recenter the water box. 
 
 ```
-$ cpptraj system.prmtop
+$ cpptraj system.prmtop -i inp.cpptraj
 ```
+
+where `inp.cpptraj` looks like this:
 
 ```
 trajin system.md.r
