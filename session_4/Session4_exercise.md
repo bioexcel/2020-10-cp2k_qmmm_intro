@@ -1,6 +1,12 @@
 ## Section 4: Diels-Alder reaction in protein
 
-The protocol used here is very similar to the protocol described for the QM/MM system in solution. The steps are the in order to set up a QM/MM system:
+This final session aims to provide a series of exercises for course attendees 
+in which they will follow the steps set out in the third session to run a QM/MM 
+simulation of a Diels-Alder reaction within a protein. Note that, because of the 
+size of the system, it is not feasible to run this "live".
+
+The protocol used here is very similar to the protocol described for the QM/MM 
+system in solution. The steps are the in order to set up a QM/MM system:
 
 - Modifications of the Lennard-Jones parameters,
 - Fix the atomic coordinates format obtained form the equilibration step.
@@ -12,11 +18,13 @@ The protocol used here is very similar to the protocol described for the QM/MM s
 
 **Cleaning the initial structure (from PDB database)**
 
-We start with the catalytic antibody structure (PDB id 1C1E) and we are goingto build the system shown below:
+We start with the catalytic antibody structure (PDB id 1C1E) and we are going to 
+build the system shown below:
 
 ![Protein-ligand system](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/QMMM.section4.png)
 
-First, you split the system into 3 parts (protein, ligand, waters). See **fix_1c1e.sh**:
+First, you split the system into 3 parts (protein, ligand, waters). 
+See **fix_1c1e.sh**:
 
 ```
 # Split water molecules, protein and ligand ENH
@@ -25,27 +33,35 @@ grep -v "HOH" 1c1e.pdb | grep -v "ENH" > 1c1e.protein.pdb
 grep "ENH" 1c1e.pdb > 1c1e.ligand.pdb
 ```
 
-Secondly, you use pymol to align the Diels Alder product to the ligand ENH and save the new coordinates (Result: **DAA.aligned.pdb**). 
+Secondly, we will need to use some software to align the Diels-Alder product to 
+the ligand. For this course, we have provided a copy of the aligned system (you 
+can find it [here](./exercises/1_system_setup/DAA.aligned.pdb)) We used pymol to 
+align the Diels Alder product to the ligand ENH -- for more information on how 
+to do this, see [this link](https://pymolwiki.org/index.php/Align).
 
 <br/><br/>
 
 **Ligand parameterisation**
 
-Again, we will use the ambertools protocol (using antechamber and prmchk2). For more details on the process: 
-http://ambermd.org/tutorials/basic/tutorial4b/
+Again, we will use the ambertools protocol (using antechamber and prmchk2). For 
+more details on the process see : http://ambermd.org/tutorials/basic/tutorial4b/
 
 ```
-$ antechamber -i DAA.aligned.pdb -fi pdb -o product.mol2 -fo mol2 -nc -1 -c bcc -at gaff2 -rn DAA
+$ antechamber -i DAA.aligned.pdb -fi pdb -o product.mol2 -fo mol2 \
+              -nc -1 -c bcc -at gaff2 -rn DAA
 $ parmchk2 -i product.mol2 -f mol2 -o product.frcmod
 ```
 
-Using this protocol, we are going to use GAFF2 forcefield parameters to define atomtupes and use AM1-BCC QM level to calculate the charges. 
+Using this protocol, we are going to use GAFF2 forcefield parameters to define 
+atomtupes and use AM1-BCC QM level to calculate the charges. 
 
 <br/><br/>
 
 **System preparation**
 
-Using tleap for the ambertools suite, we are going to prepare the system (which inclused the product solvated in a waterbox with a counterion to neutralise the system. 
+Using tleap for the ambertools suite, we are going to prepare the system (which 
+includes the product solvated in a waterbox with a counterion to neutralise the 
+system. 
 
 The tleap input file (**leap.in**) looks like this:
 
@@ -70,7 +86,8 @@ saveamberparm SYS system.prmtop system.inpcrd
 quit
 ```
 
-Finally we execute tleap like this:
+Before executing tleap, we will need to remove any leftover connections in the 
+`1c1e.protein.pdb` file. Once this is done, we execute tleap as before:
 
 ```
 $ tleap -f leap.in
@@ -83,12 +100,15 @@ $ tleap -f leap.in
 
 ### Section 4.2: Classical minimisation and equilibration of the system.
 
-Here we are going to lto use the same protocol described in the **Section 3.2**. Here are the input files:
+Here we are going to lto use the same protocol described in **Section 3.2**. As 
+before, we will need to copy over the `system.prmtop` and `system.inpcrd` from 
+the first part of this exercise. We will then use `sander` to run classical a 
+minimisation and thermal equilibration on the system. Here are the input files:
 
-- GMX_DAA/section4/CP2K/classical_equilibration/min_classical.in
-- GMX_DAA/section4/CP2K/classical_equilibration/heat_classical.in
+- [in.classical_minimisation](./2_classical_equilibration/in.classical_minimisation)
+- [in.classical_heating](./2_classical_equilibration/in.classical_heating)
 
-**min_classical.in**
+**in.classical_minimisation**
 
 ```
 Initial minimisation of our structure
@@ -98,7 +118,7 @@ Initial minimisation of our structure
  /
  ```
  
-**heat_classical.in**
+**in.classical_heating**
 
 ```
 Heat
@@ -118,10 +138,23 @@ Heat
 &wt type='END' /
 ```
 
-To run the minimisation, you have to use this command:
+To run the minimisation, we will be sumbmitting a job on ARCHER. This can be 
+done by running:
+
+```bash
+qsub sub_sander.pbs
 ```
-$ sander -O -i min_classical.in -o min_classical.out -p system.prmtop -c system.inpcrd -r system.min.r
-$ sander -O -i heat_classical.in -o heat_classical.out -p system.prmtop -c system.min.r -r system.md.r -x system.md.nc
+
+The lines of interest are equivalent to running the following on the login nodes
+(but running on the compute nodes is faster, and will not use up the shared 
+login-node resources):
+
+```
+$ sander -O -i in.classical_minimisation -o out.classical_minimisation \
+            -p system.prmtop -c system.inpcrd -r system.min.r
+$ sander -O -i in.classical_heating -o out.classical_heating \
+            -p system.prmtop -c system.min.r -r system.md.r \
+            -x system.md.nc
 ```
 
 <br/><br/>
@@ -137,9 +170,12 @@ There are several steps in order to set up a QM/MM system:
 
 **Modification of Lennard-Jones parameters**
 
-Again we need to modify the ennard-Jones parameters of TIP3P water model and the hydrogen atom of the hydroxyl groups of the Ser and Tyr residues of the protein. We are going to use the LJ parameters in the GAFF2 forcefield again.
+Again we need to modify the ennard-Jones parameters of TIP3P water model and the 
+hydrogen atom of the hydroxyl groups of the Ser and Tyr residues of the protein. 
+We are going to use the LJ parameters in the GAFF2 forcefield again.
 
-To modify them, we are going to modify the prmtop file using parmed. Here are the PARMED commands to run:
+To modify them, we are going to modify the prmtop file using parmed. Here are 
+the PARMED commands to run:
 
 ```
 $ parmed system.prmtop
@@ -158,7 +194,10 @@ quit
 
 **Fix the atomic coordinates format obtained form the equilibration step**
 
-In order to use the output of the heat simulations, we need to convert the structure from netcdf (binary) to CRD (AMBER) format. We are going to use the CPPTRAJ tool ( provided by the AMBERtools free suite ) to conver the format and recenter the water box. 
+In order to use the output of the heat simulations, we need to convert the 
+structure from netcdf (binary) to CRD (AMBER) format. We are going to use the 
+CPPTRAJ tool ( provided by the AMBERtools free suite ) to conver the format and 
+recenter the water box. 
 
 ```
 $ cpptraj system.prmtop
@@ -172,13 +211,16 @@ go
 quit
 ```
 
-For a more detailed explanation of the cpptraj commands, you can look at the [CPPTRAJ manual](https://amber-md.github.io/cpptraj/CPPTRAJ.xhtml). 
+For a more detailed explanation of the cpptraj commands, you can look at the 
+[CPPTRAJ manual](https://amber-md.github.io/cpptraj/CPPTRAJ.xhtml). 
 
 <br/><br/>
 
 **Definition of the QM/MM boundaries**
 
-We are going to use the same QM MM partition used in **section 3** and hence, we have to set up the appropiate link atoms. You need to check the atom indexes for each system. 
+We are going to use the same QM MM partition used in **section 3** and hence, 
+we have to set up the appropiate link atoms. You need to check the atom indices 
+for each system. 
 
 ```
    &LINK
@@ -190,7 +232,9 @@ We are going to use the same QM MM partition used in **section 3** and hence, we
 
 <br/><br/>
 
-The CP2K input resembles the one used in the **Section 3.3**. The index numbers have changed and will need to be updated: **GMX_DAA/section4/CP2K/monitorisation_qmmm/qmmm_md.link_atoms.inp**
+The CP2K input resembles the one used in the **Section 3.3**. The index numbers 
+have changed and will need to be updated: 
+**GMX_DAA/section4/CP2K/monitorisation_qmmm/qmmm_md.link_atoms.inp**
 
 ```
     &QMMM
@@ -230,7 +274,10 @@ The CP2K input resembles the one used in the **Section 3.3**. The index numbers 
 
 ### Section 4.4: QM/MM enhanced sampling (Metadynamics)
 
-As we saw in the previous QM/MM simulations, the system remains estable and runs smoothly. However, we need to set up biased simulations for the Diels Alder reaction to happen. We are going to use the same protocol described before in **section 3.4**
+As we saw in the previous QM/MM simulations, the system remains estable and runs 
+smoothly. However, we need to set up biased simulations for the Diels Alder 
+reaction to happen. We are going to use the same protocol described before in 
+**section 3.4**
 
 **plumed.dat**:
 
