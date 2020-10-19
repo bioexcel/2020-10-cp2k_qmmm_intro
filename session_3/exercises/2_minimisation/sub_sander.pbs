@@ -22,6 +22,6 @@ aprun -n 24 sander.MPI -O \
 echo "Sander thermal equilibration"
 aprun -n 24 sander.MPI -O \
               -i in.classical_heating -o out.classical_heating \
-              -p system.prmtop -c system.inpcrd -r system.md.r \
+              -p system.prmtop -c system.min.r -r system.md.r \
               -x system.md.nc
 
