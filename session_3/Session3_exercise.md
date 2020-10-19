@@ -85,7 +85,7 @@ $ tleap -f leap.in
 ---
 **NOTE**
 
-For this part of the exercise, we will need the `system.prmtop` and 
+> For this part of the exercise, we will need the `system.prmtop` and 
 `system.inpcrd` files generated during **Section 3.1** of this exercise. If you 
 have not managed to generate these files, a copy has been provided 
 [here](./exercises/2_minimisation/bckp_missed_steps)
@@ -163,7 +163,7 @@ $ sander -O -i in.classical_heating -o out.classical_heating \
 
 **NOTE**
 
-For this part of the exercise, we will need the `system.prmtop` file generated 
+> For this part of the exercise, we will need the `system.prmtop` file generated 
 in **Section 3.1**, and the `system.md.r` file generated in **Section 3.2** of 
 this exercise. If you have not managed to generate these files, a copy has been 
 provided [here](./exercises/3_monitorisation_qmmm/bckp_missed_steps)
@@ -448,7 +448,7 @@ The main changes are located in the ```&MOTION``` section:
 ---
 **NOTE**
 
-For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
+> For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
 `system.md.crd` files generated in **Section 3.3** of this exercise. If you have 
 not managed to generate these files, a copy has been provided 
 [here](./exercises/4_qmmm_metadynamics/bckp_missed_steps).
