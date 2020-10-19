@@ -86,8 +86,13 @@ saveamberparm SYS system.prmtop system.inpcrd
 quit
 ```
 
-Before executing tleap, we will need to remove any leftover connections in the 
+---
+**NOTE**
+
+> Before executing tleap, we will need to remove any leftover connections in the 
 `1c1e.protein.pdb` file. Once this is done, we execute tleap as before:
+
+---
 
 ```
 $ tleap -f leap.in
@@ -103,7 +108,7 @@ $ tleap -f leap.in
 ---
 **NOTE**
 
-For this part of the exercise, we will need the `system.prmtop` and 
+> For this part of the exercise, we will need the `system.prmtop` and 
 `system.inpcrd` files generated during **Section 4.1** of this exercise. If you 
 have not managed to generate these files, a copy has been provided 
 [here](./exercises/2_minimisation/bckp_missed_steps)
@@ -174,7 +179,7 @@ $ sander -O -i in.classical_heating -o out.classical_heating \
 
 **NOTE**
 
-For this part of the exercise, we will need the `system.prmtop` file generated 
+> For this part of the exercise, we will need the `system.prmtop` file generated 
 in **Section 4.1**, and the `system.md.r` file generated in **Section 4.2** of 
 this exercise. If you have not managed to generate these files, a copy has been 
 provided [here](./exercises/3_monitorisation_qmmm/bckp_missed_steps)
@@ -301,7 +306,7 @@ have changed and will need to be updated:
 ---
 **NOTE**
 
-For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
+> For this part of the exercise, we will need the `system.LJ_mod.prmtop` and the 
 `system.md.crd` files generated in **Section 3.3** of this exercise. If you have 
 not managed to generate these files, a copy has been provided 
 [here](./exercises/4_qmmm_metadynamics/bckp_missed_steps).
