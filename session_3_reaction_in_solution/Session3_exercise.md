@@ -35,7 +35,10 @@ protocol (using antechamber and prmchk2). For more details on the process, see
 
 We are simulating the full molecule this time:
 
-![Full product molecule](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/full.product.png) [JS NOTE -- change link]
+![Full product molecule](../Images/Session3/full.product.png)
+
+We will begin by generating a topology for our system using `antechamber`, and 
+checking that our forcefields are sensible with `parmchk2`:
 
 ```
 $ antechamber -i product.pdb -fi pdb -o product.mol2 -fo mol2 -nc -1 -c bcc -at gaff2 -rn DAA
@@ -75,8 +78,6 @@ Finally we execute tleap like this:
 ```
 $ tleap -f leap.in
 ```
-
-> TIP: Always visualise the system to check everything is OK.
 
 <br/><br/>
 
@@ -238,7 +239,7 @@ For a more detailed explanation of the cpptraj commands, you can look at the
 
 After that we set up the QM/MM partition as follows: 
 
-![QM/MM partition](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/QMMM.section3.png)
+![QM/MM partition](../Images/Session3/QMMM.section3.png)
 
 QM region is highlighted in blue and link atoms are shown in purple. The rest 
 of the system (water molecules and counterions) is shown in white. 
@@ -264,7 +265,7 @@ To set the link atoms in CP2K, we have to do the following steps.
 Here it is an image showing all the indexes of the atoms for this solvated 
 system:
 
-![QMMM indexes](https://github.com/salomellabres/CP2K_tutorials_for_biological_simulations/blob/master/GMX_DAA/images/QMMM.section3_indexes.png)
+![QMMM indices](../Images/Session3/QMMM.section3_indexes.png)
 
 <br/><br/>
 
