@@ -1,5 +1,0 @@
-trajin system.md.r
-autoimage
-trajout system.md.crd restrt
-go
-quit
