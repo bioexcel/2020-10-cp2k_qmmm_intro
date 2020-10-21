@@ -15,6 +15,6 @@ cd $PBS_O_WORKDIR
 module load cp2k/7.1
 
 # Run LAMMPS
-aprun -n 24 cp2k.popt -i inp.cp2k \
-                      -o out.cp2k
+aprun -n 24 cp2k.popt -i inp.cp2k_metadynamics \
+                      -o out.cp2k_metadynamics
 
