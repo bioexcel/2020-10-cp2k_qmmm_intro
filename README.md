@@ -3,6 +3,7 @@
 Course page: [https://www.archer2.ac.uk/training/courses/201013-cp2k/](https://www.archer2.ac.uk/training/courses/201013-cp2k/)
 
 Recording of Day 1:  [https://www.youtube.com/watch?v=4Xms3YfWLwA](https://www.youtube.com/watch?v=4Xms3YfWLwA)
+
 Recording of Day 2: [https://www.youtube.com/watch?v=YCuL9QUG8tA](https://www.youtube.com/watch?v=YCuL9QUG8tA)
 
 
