@@ -1,6 +1,10 @@
 # Practical introduction to QM/MM using CP2K for biomolecular modelling (October 2020)
 
-**Note:** The material in this repository is under development and subject to change.
+Course page: [https://www.archer2.ac.uk/training/courses/201013-cp2k/](https://www.archer2.ac.uk/training/courses/201013-cp2k/)
+
+Recording of Day 1:  [https://www.youtube.com/watch?v=4Xms3YfWLwA](https://www.youtube.com/watch?v=4Xms3YfWLwA)
+Recording of Day 2: [https://www.youtube.com/watch?v=YCuL9QUG8tA](https://www.youtube.com/watch?v=YCuL9QUG8tA)
+
 
 CP2K is a quantum chemistry and solid state physics software package that can 
 perform atomistic simulations of a wide variety of systems, ranging from solid 
